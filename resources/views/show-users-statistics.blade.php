@@ -21,7 +21,7 @@
                     <h1 class="text-center text-xl mb-4">Totals</h1>
 
                     <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                        <!-- Example Box -->
+
                         <div class="bg-red-500 text-white p-4 rounded-xl">
                             <div class="text-center">
                                 <h6 class="mb-2">total accounts</h6>
@@ -29,7 +29,40 @@
                                 <h6>admin + user created</h6>
                             </div>
                         </div>
-                        <!-- More boxes go here following the same format -->
+
+                        <div class="bg-red-500 text-white p-4 rounded-xl">
+                            <div class="text-center">
+                                <h6 class="mb-2">Total Man</h6>
+                                <h1 class="text-3xl">{{ $totalman }}</h1>
+                            </div>
+                        </div>
+
+                        <div class="bg-red-500 text-white p-4 rounded-xl">
+                            <div class="text-center">
+                                <h6 class="mb-2">Total Woman</h6>
+                                <h1 class="text-3xl">{{ $totalwoman }}</h1>
+                            </div>
+                        </div>
+
+                        <div class="bg-red-500 text-white p-4 rounded-xl">
+                            <div class="text-center">
+                                <h6 class="mb-2">Total Admin Accounts: {{ $adminaccounts }}</h6>
+                                <h1 class="text-3xl">
+                                    <p>Man: {{ $manaccountsadmin }}</p>
+                                    <p>Woman: {{ $womanaccountsadmin }}</p>
+                                </h1>
+                            </div>
+                        </div>
+
+                        <div class="bg-red-500 text-white p-4 rounded-xl">
+                            <div class="text-center">
+                                <h6 class="mb-2">Total Self Accounts: {{ $selfaccounts }}</h6>
+                                <h1 class="text-3xl">
+                                    <p>Man: {{ $manaccountsuser }}</p>
+                                    <p>Woman: {{ $womanaccountsuser }}</p>
+                                </h1>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
