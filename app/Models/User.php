@@ -3,10 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use App\Models\UserCity;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
@@ -21,6 +22,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'gender',
+        'createdby',
+        'wanttobe',
+        'aboutme',
+        'lookingfordetails',
+        'tagline',
+        'username',
+        'profilephoto'
     ];
 
     /**
@@ -42,4 +51,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function cities()
+    {
+        return $this->hasOne(UserCity::class, 'userid', 'id');
+    }
 }
