@@ -19,3 +19,6 @@ Route::get('/', function () {
 });
 
 Route::get('/user-stats', [UserStatisticsController::class, 'showUsersStatistics']);
+
+// After Refactoring
+Route::get('/stats', [UserStatisticsController::class, 'show']);

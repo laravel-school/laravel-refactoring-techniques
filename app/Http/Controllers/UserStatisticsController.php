@@ -165,33 +165,7 @@ class UserStatisticsController extends Controller
             ->where('created_at', '<=', $todate)
             ->count();
 
-
-        //Ip address tracking
-        $registererIP = RegistererIp::where('created_at', '>=', $fromdate)
-            ->where('created_at', '<=', $todate)
-            ->get('ip');
-
         $referrals = array();
-
-        /*
-        foreach ($registererIP as $registerer)
-            {
-                        $visitor = Visitor::where('ip', '=', $registerer)->first();
-                        if($visitor)
-                            {
-                                $userreferreral = $visitor->reference;
-                                array_push($referrals, $userreferreral);
-                            }
-            }
-
-
-        $referrals = array_count_values($referrals);
-
-        $referrals = array_sort($referrals, function($value){
-                                    return $value;
-                                });
-
-        //END OF IP ADDRESS TRACKING    */
 
         return view('show-users-statistics')
             ->with([
@@ -207,6 +181,72 @@ class UserStatisticsController extends Controller
                 'countusers' => $countusers,
                 'countries' => $countries,
                 'referrals' => $referrals,
+            ]);
+    }
+
+    public function show(Request $request)
+    {
+        $from = $request->input('from', '2015-01-01 00:00:00');
+        $to = $request->input('to', Carbon::now('Singapore'));
+        $fromdate = Carbon::parse($from)->addHour(-8);
+        $todate = Carbon::parse($to)->addHour(-8);
+
+        $countries = User::join('usercities', 'users.id', '=', 'usercities.userid')
+            ->select(DB::raw("
+                usercities.currentcountry,
+                count(users.id) as total,
+
+                SUM(CASE WHEN gender = 'man' AND createdby != 'admin' THEN 1 ELSE 0 END) as usersmale,
+                SUM(CASE WHEN gender = 'man' AND createdby != 'admin' AND wanttobe = 'sugardaddy' THEN 1 ELSE 0 END) as usersmaleSD,
+                SUM(CASE WHEN gender = 'man' AND createdby != 'admin' AND wanttobe = 'sugarbaby' THEN 1 ELSE 0 END) as usersmaleSB,
+                SUM(CASE WHEN gender = 'man' AND createdby != 'admin' AND wanttobe = 'sugardaddy' AND aboutme != '' AND lookingfordetails != '' AND tagline != '' AND username != '' AND profilephoto != '' THEN 1 ELSE 0 END) as usersmaleSDcomplete,
+                SUM(CASE WHEN gender = 'man' AND createdby != 'admin' AND wanttobe = 'sugarbaby' AND aboutme != '' AND lookingfordetails != '' AND tagline != '' AND username != '' AND profilephoto != '' THEN 1 ELSE 0 END) as usersmaleSBcomplete,
+
+                SUM(CASE WHEN gender = 'woman' AND createdby != 'admin' THEN 1 ELSE 0 END) as usersfemale,
+                SUM(CASE WHEN gender = 'woman' AND createdby != 'admin' AND wanttobe = 'sugardaddy' THEN 1 ELSE 0 END) as usersfemaleSD,
+                SUM(CASE WHEN gender = 'woman' AND createdby != 'admin' AND wanttobe = 'sugarbaby' THEN 1 ELSE 0 END) as usersfemaleSB,
+                SUM(CASE WHEN gender = 'woman' AND createdby != 'admin' AND wanttobe = 'sugardaddy' AND aboutme != '' AND lookingfordetails != '' AND tagline != '' AND username != '' AND profilephoto != '' THEN 1 ELSE 0 END) as usersfemaleSDcomplete,
+                SUM(CASE WHEN gender = 'woman' AND createdby != 'admin' AND wanttobe = 'sugarbaby' AND aboutme != '' AND lookingfordetails != '' AND tagline != '' AND username != '' AND profilephoto != '' THEN 1 ELSE 0 END) as usersfemaleSBcomplete,
+
+                SUM(CASE WHEN gender = 'man' AND createdby = 'admin' THEN 1 ELSE 0 END) as adminmale,
+                SUM(CASE WHEN gender = 'man' AND createdby = 'admin' AND wanttobe = 'sugardaddy' THEN 1 ELSE 0 END) as adminmaleSD,
+                SUM(CASE WHEN gender = 'man' AND createdby = 'admin' AND wanttobe = 'sugarbaby' THEN 1 ELSE 0 END) as adminmaleSB,
+                SUM(CASE WHEN gender = 'woman' AND createdby = 'admin' THEN 1 ELSE 0 END) as adminfemale,
+                SUM(CASE WHEN gender = 'woman' AND createdby = 'admin' AND wanttobe = 'sugardaddy' THEN 1 ELSE 0 END) as adminfemaleSD,
+                SUM(CASE WHEN gender = 'woman' AND createdby = 'admin' AND wanttobe = 'sugarbaby' THEN 1 ELSE 0 END) as adminfemaleSB
+            "))
+            ->whereBetween('users.created_at', [$fromdate, $todate])
+            ->groupBy('usercities.currentcountry')
+            ->orderBy('total', 'desc')
+            ->get();
+
+        $stats = User::whereBetween('created_at', [$fromdate, $todate])
+            ->select(DB::raw("
+                count(id) as total,
+                SUM(CASE WHEN gender = 'man' THEN 1 ELSE 0 END) as totalman,
+                SUM(CASE WHEN gender != 'man' THEN 1 ELSE 0 END) as totalwoman,
+                SUM(CASE WHEN createdby = 'admin' THEN 1 ELSE 0 END) as adminAccounts,
+                SUM(CASE WHEN createdby != 'admin' THEN 1 ELSE 0 END) as selfAccounts,
+                SUM(CASE WHEN gender = 'man' AND createdby = 'admin' THEN 1 ELSE 0 END) as manAccountsAdmin,
+                SUM(CASE WHEN gender = 'woman' AND createdby = 'admin' THEN 1 ELSE 0 END) as womanAccountsAdmin,
+                SUM(CASE WHEN gender = 'man' AND createdby != 'admin' THEN 1 ELSE 0 END) as manAccountsUser,
+                SUM(CASE WHEN gender = 'woman' AND createdby != 'admin' THEN 1 ELSE 0 END) as womanAccountsUser
+            "))->first();
+
+        return view('show-users-statistics')
+            ->with([
+                'users' => $stats['total'],
+                'adminaccounts' => $stats['adminAccounts'],
+                'selfaccounts' => $stats['selfAccounts'],
+                'manaccountsadmin' => $stats['manAccountsAdmin'],
+                'womanaccountsadmin' => $stats['womanAccountsAdmin'],
+                'manaccountsuser' => $stats['manAccountsUser'],
+                'womanaccountsuser' => $stats['womanAccountsUser'],
+                'totalman' => $stats['totalman'],
+                'totalwoman' => $stats['totalwoman'],
+                'countusers' => $stats['total'],
+                'countries' => $countries,
+                'referrals' => []
             ]);
     }
 }
