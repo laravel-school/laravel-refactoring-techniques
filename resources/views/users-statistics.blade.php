@@ -76,7 +76,7 @@
                             <div class="inline-block bg-blue-500 text-white p-4 rounded-xl mx-2 mb-4 w-48">
                                 <div class="text-center mb-2">
                                     <h6>{{ $country['country'] }}</h6>
-                                    <img class="w-12 h-auto mx-auto mb-2" src="{{ url('/') }}/admin-assets/country_flags/Flag_of_{{ $country['country'] }}.png">
+                                    <img class="w-12 h-auto mx-auto mb-2" src="{{ url('/') }}/admin-assets/country_flags/Flag_of_{{ $country['currentcountry'] }}.png">
                                     <h1 class="text-3xl">{{ $country['total'] }}</h1>
                                 </div>
                                 <!-- More content here -->

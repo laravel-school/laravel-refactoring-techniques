@@ -233,7 +233,7 @@ class UserStatisticsController extends Controller
                 SUM(CASE WHEN gender = 'woman' AND createdby != 'admin' THEN 1 ELSE 0 END) as womanAccountsUser
             "))->first();
 
-        return view('show-users-statistics')
+        return view('users-statistics')
             ->with([
                 'users' => $stats['total'],
                 'adminaccounts' => $stats['adminAccounts'],
