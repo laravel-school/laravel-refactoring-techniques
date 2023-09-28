@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserStatisticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/user-stats', [UserStatisticsController::class, 'showUsersStatistics']);
+
+// After Refactoring
+Route::get('/stats', [UserStatisticsController::class, 'show']);
