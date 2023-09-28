@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Useractivity;
 use Illuminate\Http\Request;
+use App\Models\Subscriptions;
 use App\Models\DeactivateAccount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
@@ -172,5 +173,20 @@ class LoginController extends Controller
         app()->setLocale("zh");
 
         return redirect()->intended('member');
+    }
+
+    public function checkSubscriptionDates()
+    {
+        $currentdate = Carbon::now('Singapore');
+        $subscriptions = Subscriptions::where('ends_at', '<', $currentdate)->get();
+        foreach ($subscriptions as $subscriber) {
+            if ($subscriber) {
+                $subscriber->subscription_status = 0;
+                $subscriber->save();
+                $user = User::where('id', '=', $subscriber->user_id)->first();
+                $user->membershiptype = 'free';
+                $user->save();
+            }
+        }
     }
 }
