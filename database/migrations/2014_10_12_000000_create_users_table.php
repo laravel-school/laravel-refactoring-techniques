@@ -37,12 +37,14 @@ return new class extends Migration
             $table->string('activationcode', 128);
             $table->string('remember_token');
             $table->tinyInteger('flag');
+            $table->tinyInteger('issuspended');
             $table->string('membershiptype', 50);
             $table->tinyInteger('isverifiedaccount');
             $table->tinyInteger('isfeatured');
             $table->tinyInteger('isloggedin');
             $table->tinyInteger('isdoteduemail');
             $table->string('createdby');
+            $table->string('issuspendedfor');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
