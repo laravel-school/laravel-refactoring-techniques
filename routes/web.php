@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('user-featured/{country}', [
-    'uses'  => 'App\Http\Controllers\AdminController@showUsersFeatured',
+    // 'uses'  => 'App\Http\Controllers\AdminController@showUsersFeatured',
+    'uses'  => 'App\Http\Controllers\AdminController@index',
     'as'    => 'admin-user-featured'
 ]);

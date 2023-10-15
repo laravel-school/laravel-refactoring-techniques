@@ -36,24 +36,20 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white">
-                                @if(!empty($usersfeatured))
-                                    <?php $i = 1; ?>
-                                        @foreach($usersfeatured as $userfeatured)
-                                            @if($userfeatured->gender == 'man')
+                                        @foreach($usersfeatured as $key => $userfeatured)
                                                 <tr class="even:bg-gray-50">
-                                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">{{ $i }}</td>
+                                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">{{ ++$key }}</td>
                                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $userfeatured->username }}</td>
-                                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ !empty($userfeatured->featuredsince) ? \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $userfeatured->featuredsince)->format('d M, Y') : '' }}
-                                                    </td>
+                                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $userfeatured->featuredsince ? $userfeatured->featuredsince->format('d M, Y') : '' }} </td>
                                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $userfeatured->featuredin }}</td>
                                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $userfeatured->created_at->diffForHumans() }}</td>
                                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $userfeatured->membershiptype }}</td>
                                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $userfeatured->gender }}</td>
-                                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">@if(!empty($userfeatured->usercity)){{ $userfeatured->usercity->currentcountry }}@endif</td>
+                                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ optional($userfeatured->usercity)->currentcountry }}</td>
                                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                         @if($userfeatured->tempphoto)
                                                             <a href="" target="_blank">
-                                                                <img src="{{ url('/') }}/images/users/photos/{!!$userfeatured->tempphoto->isprivate == '1' ? 'private' : 'public'!!}/cropped/{{$userfeatured->tempphoto->photomainid}}" alt="" width="50" height="50">
+                                                                <img src="{{ $userfeatured->profilePhoto() }}" alt="" width="50" height="50">
                                                             </a>
                                                         @endif
                                                     </td>
@@ -62,14 +58,13 @@
                                                         <a href="#" class="text-indigo-600 hover:text-indigo-900">Unfeature</a>
                                                     </td>
                                                 </tr>
-                                                <?php $i++; ?>
-                                            @endif
                                         @endforeach
-                                @endif
 
                                 <!-- More people... -->
                             </tbody>
                         </table>
+
+                        {{ $usersfeatured->links() }}
                     </div>
                 </div>
             </div>

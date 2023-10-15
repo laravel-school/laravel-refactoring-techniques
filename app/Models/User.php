@@ -33,6 +33,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'featuredsince' => 'datetime'
     ];
 
     public function usercity()
@@ -43,5 +44,10 @@ class User extends Authenticatable
     public function tempphoto()
     {
         return $this->hasOne(Photo::class, 'userid');
+    }
+
+    public function profilePhoto()
+    {
+        return url('/') . "/images/users/photos/" . $this->tempphoto->isprivate == '1' ? 'private' : 'public' . "/cropped/{$this->tempphoto->photomainid}";
     }
 }
