@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use App\Models\Photo;
+use App\Models\Usercity;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +21,19 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        $users = User::factory(1000)->create();
+
+        foreach ($users as $user) {
+            Usercity::factory()->create([
+                'userid' => $user->id,
+            ]);
+
+            Photo::factory()->create([
+                'userid' => $user->id,
+            ]);
+
+            echo "{$user->email} created. \n";
+        }
     }
 }

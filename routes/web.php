@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('user-featured/{country}', [
+    // 'uses'  => 'App\Http\Controllers\AdminController@showUsersFeatured',
+    'uses'  => 'App\Http\Controllers\AdminController@index',
+    'as'    => 'admin-user-featured'
+]);
