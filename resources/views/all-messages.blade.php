@@ -35,7 +35,7 @@
                                 <dt class="text-base font-normal text-gray-900">Total Mesagess</dt>
                                 <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
                                     <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
-                                        {{ $totalmessages->count() }}
+                                        {{ $totalmessages }}
                                     </div>
                                 </dd>
                             </div>
@@ -43,7 +43,7 @@
                                 <dt class="text-base font-normal text-gray-900">Message to admin users</dt>
                                 <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
                                     <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
-                                        {{ $messagestoadminaccounts->count() }}
+                                        {{ $messagestoadminaccounts }}
                                     </div>
                                 </dd>
                             </div>
@@ -51,7 +51,7 @@
                                 <dt class="text-base font-normal text-gray-900">Total Potential Messages</dt>
                                 <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
                                     <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
-                                        {{ $potentialmessages->count() }}
+                                        {{ $potentialmessages }}
                                     </div>
                                 </dd>
                             </div>
@@ -59,7 +59,7 @@
                                 <dt class="text-base font-normal text-gray-900">Total Flagged Messages</dt>
                                 <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
                                     <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
-                                        {{ $flagedmessages->count() }}
+                                        {{ $flagedmessages }}
                                     </div>
                                 </dd>
                             </div>
