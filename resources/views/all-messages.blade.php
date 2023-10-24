@@ -100,9 +100,6 @@
                                             <div class="">
                                                 {{ $message->user->messages()->orderByDesc('created_at')->first()->created_at->format('d F Y') }}
                                             </div>
-                                            <span class="text-sm text-blue-500" title="Send by">
-                                                {{ $message->user->fullname }} :
-                                            </span>
                                             <span class="text-sm text-gray-400">
                                                 {{ Str::limit($message->user->messages()->orderByDesc('created_at')->first()->message,50) }}
                                             </span>

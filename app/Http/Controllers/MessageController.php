@@ -11,9 +11,7 @@ class MessageController extends Controller
     public function index()
     {
         $messages = Message::with('conversations', 'conversations.userone', 'conversations.usertwo', 'user.messages')
-            ->orderBy('updated_at', 'desc')
             ->groupBy('conversation_id')
-            ->groupBy('user_id')
             ->paginate(50);
 
         $messagesToAdminAccounts = DB::table('users')
