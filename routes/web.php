@@ -15,3 +15,4 @@ use App\Http\Controllers\MessageController;
 */
 
 Route::get('/', [MessageController::class, 'index']);
+Route::get('/refactor', [MessageController::class, 'refactor']);

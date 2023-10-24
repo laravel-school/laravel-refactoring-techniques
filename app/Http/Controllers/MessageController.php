@@ -47,4 +47,9 @@ class MessageController extends Controller
         return view('all-messages')
             ->with(['messages' => $messages, 'messagestoadminaccounts' => $messagesToAdminAccounts, 'potentialmessages' => $potentialMessages, 'flagedmessages' => $flagedMessages, 'totalmessages' => $totalmessages]);
     }
+
+    public function refactor()
+    {
+        return view('refactor');
+    }
 }
