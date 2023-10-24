@@ -18,11 +18,39 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'aboutme' => $this->faker->text,
+            'hasapprovedaboutme' => $this->faker->boolean,
+            'lookingfordetails' => $this->faker->text,
+            'hasapprovedlookingfor' => $this->faker->boolean,
+            'fullname' => $this->faker->name,
+            'birthday' => $this->faker->dayOfMonth,
+            'birthmonth' => $this->faker->monthName,
+            'birthyear' => $this->faker->year,
+            'gender' => $this->faker->randomElement(['male', 'female', 'other']),
+            'wanttobe' => $this->faker->word,
+            'interest' => $this->faker->word,
+            'lifestyle' => $this->faker->sentence,
+            'networth' => $this->faker->word,
+            'annualincome' => $this->faker->word,
+            'username' => $this->faker->userName,
+            'isusernameapproved' => $this->faker->boolean,
+            'email' => $this->faker->unique()->safeEmail,
+            'password' => bcrypt('secret'),
+            'profilephoto' => $this->faker->imageUrl,
+            'tagline' => $this->faker->sentence,
+            'hasapprovedtagline' => $this->faker->boolean,
+            'activationcode' => Str::random(128),
             'remember_token' => Str::random(10),
+            'flag' => $this->faker->boolean,
+            'issuspended' => $this->faker->boolean,
+            'membershiptype' => $this->faker->word,
+            'isverifiedaccount' => $this->faker->boolean,
+            'isfeatured' => $this->faker->boolean,
+            'isloggedin' => $this->faker->boolean,
+            'isdoteduemail' => $this->faker->boolean,
+            'createdby' => $this->faker->randomElement(['admin', 'user']),
+            'issuspendedfor' => $this->faker->word,
+            'email_verified_at' => $this->faker->dateTime,
         ];
     }
 
