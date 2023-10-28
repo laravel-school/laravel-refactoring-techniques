@@ -35,7 +35,7 @@
                                 <dt class="text-base font-normal text-gray-900">Total Mesagess</dt>
                                 <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
                                     <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
-                                        XXX
+                                        {{ $totalMessages }}
                                     </div>
                                 </dd>
                             </div>
@@ -43,7 +43,7 @@
                                 <dt class="text-base font-normal text-gray-900">Message to admin users</dt>
                                 <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
                                     <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
-                                        XXX
+                                        {{ $messageToAdminAccounts }}
                                     </div>
                                 </dd>
                             </div>
@@ -51,7 +51,7 @@
                                 <dt class="text-base font-normal text-gray-900">Total Potential Messages</dt>
                                 <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
                                     <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
-                                        XXX
+                                        {{ $potentialMessages }}
                                     </div>
                                 </dd>
                             </div>
@@ -59,7 +59,7 @@
                                 <dt class="text-base font-normal text-gray-900">Total Flagged Messages</dt>
                                 <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
                                     <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
-                                        XXX
+                                        {{ $flaggedMessages }}
                                     </div>
                                 </dd>
                             </div>
@@ -85,33 +85,32 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
+                                    @foreach($conversations as $conversation)
                                     <tr>
                                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                            Foo
+                                            {{ $conversation->userone->fullname }}
                                         </td>
                                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                            Bar
+                                            {{ $conversation->usertwo->fullname }}
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                            XXX
+                                            {{ $conversation->messages_count }}
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-800">
                                             <div class="">
-                                                XXX-XX-XX
+                                                {{ $conversation->last_message_date->format('d F Y') }}
                                             </div>
-                                            <span class="text-sm text-blue-500" title="Send by">
-                                                FOO:
-                                            </span>
                                             <span class="text-sm text-gray-400">
-                                                Lorem Ipsum...
+                                                {{ Str::limit($conversation->last_message, 50) }}
                                             </span>
                                         </td>
                                     </tr>
+                                    @endforeach
                             </tbody>
                         </table>
                     </div>
                     <div class="my-8">
-
+                        {{ $conversations->links() }}
                     </div>
                 </div>
             </div>
